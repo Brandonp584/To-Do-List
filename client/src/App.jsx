@@ -39,6 +39,20 @@ function App() {
     fetchTasks();
   }
 
+  const toggleComplete = async (task) => {
+    await fetch(`http://localhost:5000/api/tasks/${task._id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        completed: !task.completed
+      })
+    });
+
+    fetchTasks();
+  }
+
   return (
     <div style={{ padding: "20px" }}>
       <h1>To-Do-List</h1>
@@ -61,7 +75,15 @@ function App() {
           alignItems: "center"
         }}
       >
-        <span>{task.title}</span>
+        <span
+          onClick={() => toggleComplete(task)}
+          style={{
+            cursor: "pointer",
+            textDecoration: task.completed ? "line-through" : "none"
+          }}
+        >
+          {task.title}
+        </span>
 
         <button onClick={() => deleteTask(task._id)}>
           Delete
