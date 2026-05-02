@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
+import "./App.css";
 
 function App() {
   const [tasks, setTasks] = useState([]);
   const [title, setTitle] = useState("");
 
-  // Get Tasks
   const fetchTasks = () => {
     fetch("http://localhost:5000/api/tasks")
       .then(res => res.json())
@@ -15,7 +15,6 @@ function App() {
     fetchTasks();
   }, []);
 
-  //CREATE task
   const addTask = async () => {
     if (!title) return;
 
@@ -29,7 +28,7 @@ function App() {
 
     setTitle("");
     fetchTasks();
-  }
+  };
 
   const deleteTask = async (id) => {
     await fetch(`http://localhost:5000/api/tasks/${id}`, {
@@ -37,7 +36,7 @@ function App() {
     });
 
     fetchTasks();
-  }
+  };
 
   const toggleComplete = async (task) => {
     await fetch(`http://localhost:5000/api/tasks/${task._id}`, {
@@ -51,48 +50,39 @@ function App() {
     });
 
     fetchTasks();
-  }
+  };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>To-Do-List</h1>
+    <div className="app">
+      <div className="card">
+        <h1>To-Do App</h1>
 
-      <input
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        placeholder="Enter Task"
-      />
+        <div className="inputRow">
+          <input
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Enter task..."
+          />
+          <button onClick={addTask}>Add</button>
+        </div>
 
-      <button onClick={addTask}>Add Task</button>
+        {tasks.map(task => (
+          <div className="taskRow" key={task._id}>
+            <span
+              className={task.completed ? "done" : ""}
+              onClick={() => toggleComplete(task)}
+            >
+              {task.title}
+            </span>
 
-      {tasks.map(task => (
-        <div
-          key={task._id}
-          style={{
-          display: "flex",
-          gap: "10px",
-          marginTop: "10px",
-          alignItems: "center"
-        }}
-      >
-        <span
-          onClick={() => toggleComplete(task)}
-          style={{
-            cursor: "pointer",
-            textDecoration: task.completed ? "line-through" : "none"
-          }}
-        >
-          {task.title}
-        </span>
-
-        <button onClick={() => deleteTask(task._id)}>
-          Delete
-        </button>
+            <button onClick={() => deleteTask(task._id)}>
+              Delete
+            </button>
+          </div>
+        ))}
       </div>
-    ))}
     </div>
   );
 }
-
 
 export default App;
