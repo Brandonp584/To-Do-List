@@ -1,7 +1,9 @@
 import { useState } from "react";
+import {useNavigate } from "react-router-dom";
 import Toast from "../components/Toast";
 
 function Login() {
+    const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [toast, setToast] = useState("");
@@ -22,7 +24,7 @@ function Login() {
             setToast("Login successful!");
 
             setTimeout(() => {
-                window.location.href = "/tasks";
+                navigate("/tasks");
             }, 800);
         } else {
             setToast(data.message || "Login Failed!");
