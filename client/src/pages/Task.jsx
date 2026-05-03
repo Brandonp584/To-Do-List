@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import "../App.css";
 
@@ -7,12 +7,17 @@ function Tasks() {
   const [title, setTitle] = useState("");
 
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
 
-  const fetchTasks = () => {
-    fetch("http://localhost:5000/api/tasks")
+  const fetchTasks = useCallback(() => {
+    fetch("http://localhost:5000/api/tasks", {
+      headers: {
+        Authorization: token
+      }
+    })
       .then(res => res.json())
       .then(data => setTasks(data));
-  };
+  }, [token]);
 
   // Protect page
   useEffect(() => {
@@ -23,7 +28,7 @@ function Tasks() {
     } else {
       fetchTasks();
     }
-  }, [navigate]);
+  }, [navigate, fetchTasks]);
 
   const addTask = async () => {
     if (!title) return;
@@ -31,7 +36,8 @@ function Tasks() {
     await fetch("http://localhost:5000/api/tasks", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        Authorization: token
       },
       body: JSON.stringify({ title })
     });
@@ -42,7 +48,10 @@ function Tasks() {
 
   const deleteTask = async (id) => {
     await fetch(`http://localhost:5000/api/tasks/${id}`, {
-      method: "DELETE"
+      method: "DELETE",
+      headers: {
+        Authorization: token
+      }
     });
 
     fetchTasks();
@@ -52,7 +61,8 @@ function Tasks() {
     await fetch(`http://localhost:5000/api/tasks/${task._id}`, {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        Authorization: token
       },
       body: JSON.stringify({
         completed: !task.completed
