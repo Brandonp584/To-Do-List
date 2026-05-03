@@ -7,6 +7,7 @@ function Tasks() {
   const [tasks, setTasks] = useState([]);
   const [title, setTitle] = useState("");
   const [toast, setToast] = useState("");
+  const [ filter, setFilter] = useState("all");
   
   const name = localStorage.getItem("name") || "User";
 
@@ -33,6 +34,13 @@ function Tasks() {
       fetchTasks();
     }
   }, [navigate, fetchTasks]);
+
+  // Filter logic
+  const filteredTasks = tasks.filter((task) => {
+    if (filter === "active") return !task.completed;
+    if (filter === "completed") return task.completed;
+    return true;
+  });
 
   const addTask = async () => {
     if (!title) return;
@@ -90,13 +98,41 @@ function Tasks() {
       <div className="card">
 
         <div className="header">
-          <p classname="welcomeText">Welcome, {name}</p>
-          <h1>My Tasks</h1>
+          <div>
+            <p className="welcomeText">Welcome, {name}</p>
+            <h1>My Tasks</h1>
+          </div>
+
           <button className="logoutBtn" onClick={logout}>
             Logout
           </button>
         </div>
 
+        {/* Filters */}
+        <div className="filters">
+          <button
+            className={filter === "all" ? "activeFilter" : ""}
+            onClick={() => setFilter("all")}
+          >
+            All
+          </button>
+
+          <button
+            className={filter === "active" ? "activeFilter" : ""}
+            onClick={() => setFilter("active")}
+          >
+            Active
+          </button>
+
+          <button
+            className={filter === "completed" ? "activeFilter" : ""}
+            onClick={() => setFilter("completed")}
+          >
+            Completed
+          </button>
+        </div>
+
+        {/* Input */}
         <div className="inputRow">
           <input
             value={title}
@@ -106,11 +142,12 @@ function Tasks() {
           <button onClick={addTask}>Add</button>
         </div>
 
+        {/* Task List */}
         <div className="taskList">
-          {tasks.length === 0 ? (
+          {filteredTasks.length === 0 ? (
             <p className="empty">No tasks yet. Add one 🚀</p>
           ) : (
-            tasks.map(task => (
+            filteredTasks.map(task => (
               <div className="taskCard" key={task._id}>
                 <span
                   className={task.completed ? "done" : ""}
