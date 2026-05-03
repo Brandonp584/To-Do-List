@@ -7,6 +7,8 @@ function Tasks() {
   const [tasks, setTasks] = useState([]);
   const [title, setTitle] = useState("");
   const [toast, setToast] = useState("");
+  
+  const name = localStorage.getItem("name") || "User";
 
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
@@ -79,6 +81,7 @@ function Tasks() {
 
   const logout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("name");
     navigate("/");
   };
 
@@ -87,6 +90,7 @@ function Tasks() {
       <div className="card">
 
         <div className="header">
+          <p classname="welcomeText">Welcome, {name}</p>
           <h1>My Tasks</h1>
           <button className="logoutBtn" onClick={logout}>
             Logout
