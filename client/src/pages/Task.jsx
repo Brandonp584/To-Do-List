@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../App.css";
 
 function Tasks() {
   const [tasks, setTasks] = useState([]);
   const [title, setTitle] = useState("");
+
+  const navigate = useNavigate();
 
   const fetchTasks = () => {
     fetch("http://localhost:5000/api/tasks")
@@ -11,9 +14,16 @@ function Tasks() {
       .then(data => setTasks(data));
   };
 
+  // Protect page
   useEffect(() => {
-    fetchTasks();
-  }, []);
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      navigate("/");
+    } else {
+      fetchTasks();
+    }
+  }, [navigate]);
 
   const addTask = async () => {
     if (!title) return;
@@ -52,10 +62,18 @@ function Tasks() {
     fetchTasks();
   };
 
+  const logout = () => {
+    localStorage.removeItem("token");
+    navigate("/");
+  };
+
   return (
     <div className="app">
       <div className="card">
-        <h1>To-Do App</h1>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <h1>To-Do-App</h1>
+          <button onClick={logout}>Logout</button>
+        </div>
 
         <div className="inputRow">
           <input
