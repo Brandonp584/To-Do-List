@@ -1,10 +1,12 @@
 import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/tasks.css";
+import Toast from "../components/Toast";
 
 function Tasks() {
   const [tasks, setTasks] = useState([]);
   const [title, setTitle] = useState("");
+  const [toast, setToast] = useState("");
 
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
@@ -43,6 +45,7 @@ function Tasks() {
     });
 
     setTitle("");
+    setToast("Task added successfully!");
     fetchTasks();
   };
 
@@ -54,6 +57,7 @@ function Tasks() {
       }
     });
 
+    setToast("Task deleted successfully!");
     fetchTasks();
   };
 
@@ -69,6 +73,7 @@ function Tasks() {
       })
     });
 
+    setToast(task.completed ? "Marked incomplete!" : "Marked complete!");
     fetchTasks();
   };
 
@@ -121,6 +126,12 @@ function Tasks() {
             ))
           )}
         </div>
+        {toast && (
+          <Toast
+            message={toast}
+            onClose={() => setToast("")}
+          />
+        )}
 
       </div>
     </div>

@@ -1,9 +1,12 @@
 import { useState } from "react";
+import Toast from "../components/Toast";
 
 function Register() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [toast, setToast] = useState("");
+
 
     const register = async () => {
         const res = await fetch("http://localhost:5000/api/auth/register", {
@@ -14,8 +17,10 @@ function Register() {
 
         const data = await res.json();
 
-        if (data.message) {
-            alert(data.message);
+        if (res.ok) {
+            setToast("Registration successful!");
+        } else {
+            setToast(data.message || "Registration Failed!");
         }
     };
 
@@ -28,6 +33,13 @@ function Register() {
             <input placeholder="Password" type="password" onChange={(e) => setPassword(e.target.value)} />
 
             <button onClick={register}>Register</button>
+
+            {toast && (
+                <Toast
+                    message={toast}
+                    onClose={() => setToast("")}
+                />
+            )}
             
         </div>
     );

@@ -1,8 +1,11 @@
 import { useState } from "react";
+import Toast from "../components/Toast";
 
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [toast, setToast] = useState("");
+
 
     const login = async () => {
         const res = await fetch("http://localhost:5000/api/auth/login", {
@@ -15,10 +18,14 @@ function Login() {
 
         if (data.token) {
             localStorage.setItem("token", data.token);
-            alert("Login Successful");
-            window.location.href = "/tasks";
+            
+            setToast("Login successful!");
+
+            setTimeout(() => {
+                window.location.href = "/tasks";
+            }, 800);
         } else {
-            alert(data.message);
+            setToast(data.message || "Login Failed!");
         }
     };
 
@@ -30,6 +37,13 @@ function Login() {
             <input placeholder="Password" type="password" onChange={(e) => setPassword(e.target.value)} />
 
             <button onClick={login}>Login</button>
+
+            {toast && (
+                <Toast
+                    message={toast}
+                    onClose={() => setToast("")}
+                />
+            )}
         </div>
     );
 }
