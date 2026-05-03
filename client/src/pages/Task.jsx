@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import "../App.css";
+import "../styles/tasks.css";
 
 function Tasks() {
   const [tasks, setTasks] = useState([]);
@@ -80,9 +80,12 @@ function Tasks() {
   return (
     <div className="app">
       <div className="card">
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <h1>To-Do-App</h1>
-          <button onClick={logout}>Logout</button>
+
+        <div className="header">
+          <h1>My Tasks</h1>
+          <button className="logoutBtn" onClick={logout}>
+            Logout
+          </button>
         </div>
 
         <div className="inputRow">
@@ -94,20 +97,27 @@ function Tasks() {
           <button onClick={addTask}>Add</button>
         </div>
 
-        {tasks.map(task => (
-          <div className="taskRow" key={task._id}>
-            <span
-              className={task.completed ? "done" : ""}
-              onClick={() => toggleComplete(task)}
-            >
-              {task.title}
-            </span>
+        <div className="taskList">
+          {tasks.length === 0 ? (
+            <p className="empty">No tasks yet. Add one 🚀</p>
+          ) : (
+            tasks.map(task => (
+              <div className="taskCard" key={task._id}>
+                <span
+                  className={task.completed ? "done" : ""}
+                  onClick={() => toggleComplete(task)}
+                >
+                  {task.title}
+                </span>
 
-            <button onClick={() => deleteTask(task._id)}>
-              Delete
-            </button>
-          </div>
-        ))}
+                <button onClick={() => deleteTask(task._id)}>
+                  Delete
+                </button>
+              </div>
+            ))
+          )}
+        </div>
+
       </div>
     </div>
   );

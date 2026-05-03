@@ -1,0 +1,170 @@
+/* ========== BASE (Mobile First) ========== */
+
+.app {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    font-family:'Times New Roman', Times, serif;
+}
+
+.card {
+    width: 100%;
+    max-width: 420px;
+    background: rgba(17, 24, 39, 0.5);
+    padding: 18px;
+    border-radius: 16px;
+    color: white;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+}
+
+/* HEADER */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.header h1 {
+    font-size: 20px;
+}
+
+/* Logout */
+.logoutBtn {
+    background: #ef4444;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+/* Input row */
+.inputRow {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.inputRow input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    background: #1f2937;
+    color: white;
+    font-size: 14px;
+}
+
+.inputRow button {
+    padding: 10px 12px;
+    background: #3b82f6;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+/* Task List */
+.taskList {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+
+/* Task Card */
+.taskCard {
+    background: #1f2937;
+    padding: 12px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.2s;
+}
+
+/* Task Text */
+.taskCard span {
+    cursor: pointer;
+    font-size: 14px;
+}
+
+/* Done */
+.done {
+    text-decoration: line-through;
+    opacity: 0.5;
+}
+
+/* Delete */
+.taskCard button {
+    background: transparent;
+    border: 1px solid #ef4444;
+    color: #ef4444;
+    padding: 5px 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+/* Hover Effect */
+.taskCard:hover {
+    transform: translateY(-2px);
+}
+
+/* Empty */
+.empty {
+    text-align: center;
+    opacity: 0.6;
+    font-size: 13px;
+    margin-top: 20px;
+}
+
+/* ========== Tablet (>= 640px) ========== */
+@media (min-width: 640px) {
+    .card {
+        padding: 22px;
+    }
+
+    .header h1 {
+        font-size: 22px;
+    }
+
+    .inputRow input {
+        font-size: 15px;
+    }
+
+    .taskCard span {
+        font-size: 15px;
+    }
+
+    .taskList {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* ========== Desktop (>= 1024px) ========== */
+@media (min-width: 1024px) {
+    .card {
+        max-width: 500px;
+        padding: 25px;
+    }
+
+    .logoutBtn {
+        font-size: 13px;
+    }
+
+    .inputRow button {
+        font-size: 14px;
+    }
+
+    .taskList {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
