@@ -110,6 +110,10 @@ function Tasks() {
                   {task.title}
                 </span>
 
+                {task.completed && (
+                  <small className="badge">Done</small>
+                )}
+
                 <button onClick={() => deleteTask(task._id)}>
                   Delete
                 </button>

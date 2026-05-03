@@ -82,24 +82,32 @@
 /* Task Card */
 .taskCard {
     background: #1f2937;
-    padding: 12px;
-    border-radius: 10px;
+    padding: 14px;
+    border-radius: 12px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    transition: 0.2s;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+    animation: fadeIn 0.25s ease-in-out;
+}
+
+.taskCard:active {
+    transform: scale(0.99);
 }
 
 /* Task Text */
 .taskCard span {
     cursor: pointer;
     font-size: 14px;
+    transition: 0.2s;
 }
 
 /* Done */
 .done {
     text-decoration: line-through;
     opacity: 0.5;
+    transition: 0.2s;
 }
 
 /* Delete */
@@ -115,7 +123,18 @@
 
 /* Hover Effect */
 .taskCard:hover {
-    transform: translateY(-2px);
+    transform: translateY(-3px);
+    border-color: #3b82f6;
+    box-shadow: 0 10px 25px rgba(59, 130, 246, 0.15);
+}
+
+.badge {
+    font-size: 10px;
+    background: #22c55e;
+    padding: 3px 6px;
+    border-radius: 6px;
+    margin-left: 8px;
+    color: white;
 }
 
 /* Empty */
@@ -124,6 +143,19 @@
     opacity: 0.6;
     font-size: 13px;
     margin-top: 20px;
+}
+
+/* Task Animation */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* ========== Tablet (>= 640px) ========== */
