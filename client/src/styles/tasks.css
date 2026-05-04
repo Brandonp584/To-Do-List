@@ -117,6 +117,17 @@
     background: #2563eb;
 }
 
+.editInput {
+    width: 100%;
+    padding: 8px 10px;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    background: #111827;
+    color: white;
+    font-size: 14px;
+}
+
 /* Task List */
 .taskList {
     display: grid;
@@ -175,15 +186,49 @@
     transition: 0.2s;
 }
 
-/* Delete */
-.taskCard button {
+.taskContent {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
+}
+
+.taskActions {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.editBtn {
+    background: transparent;
+    border: 1px solid #3b82f6;
+    color: #3b82f6;
+    padding: 6px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+
+.editBtn:hover {
+    background: rgba(59, 130, 246, 0.1);
+}
+
+.deleteBtn {
     background: transparent;
     border: 1px solid #ef4444;
     color: #ef4444;
-    padding: 5px 8px;
+    padding: 6px 8px;
     border-radius: 8px;
     cursor: pointer;
-    font-size: 12px;
+    transition: 0.2s;
+}
+
+.deleteBtn:hover {
+    background: rgba(239, 68, 68, 0.1);
 }
 
 /* Badge */
