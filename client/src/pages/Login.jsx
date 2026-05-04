@@ -1,13 +1,13 @@
 import { useState } from "react";
-import {useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Toast from "../components/Toast";
+import "../styles/auth.css";
 
 function Login() {
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [toast, setToast] = useState("");
-
 
     const login = async () => {
         const res = await fetch("http://localhost:5000/api/auth/login", {
@@ -21,32 +21,49 @@ function Login() {
         if (data.token) {
             localStorage.setItem("token", data.token);
             localStorage.setItem("name", data.user.name);
-            
+
             setToast("Login successful!");
 
             setTimeout(() => {
                 navigate("/tasks");
-            }, 800);
+            }, 700);
         } else {
             setToast(data.message || "Login Failed!");
         }
     };
 
     return (
-        <div>
-            <h1>Login</h1>
+        <div className="authPage">
+            <div className="authCard">
 
-            <input placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
-            <input placeholder="Password" type="password" onChange={(e) => setPassword(e.target.value)} />
+                <h1>Welcome Back</h1>
+                <p className="subText">Login to continue</p>
 
-            <button onClick={login}>Login</button>
-
-            {toast && (
-                <Toast
-                    message={toast}
-                    onClose={() => setToast("")}
+                <input
+                    placeholder="Email"
+                    onChange={(e) => setEmail(e.target.value)}
                 />
-            )}
+
+                <input
+                    placeholder="Password"
+                    type="password"
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+
+                <button onClick={login}>Login</button>
+
+                <p className="switchText">
+                    Don’t have an account?{" "}
+                    <Link to="/register">Register</Link>
+                </p>
+
+                {toast && (
+                    <Toast
+                        message={toast}
+                        onClose={() => setToast("")}
+                    />
+                )}
+            </div>
         </div>
     );
 }

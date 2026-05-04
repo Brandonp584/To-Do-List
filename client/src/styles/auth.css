@@ -1,0 +1,154 @@
+/* ========== Base (Mobile First) ========== */
+
+.authPage {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    font-family: system-ui, -apple-system, sans-serif;
+}
+
+.authCard {
+    width: 100%;
+    min-width: 360px;
+    background: rgba(17, 24, 39, 0.6);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    border-radius: 16px;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+/* ======== Text ======== */
+
+.authCard h1 {
+    font-size: 20px;
+    margin-bottom: 6px;
+}
+
+.subText {
+    font-size: 13px;
+    opacity: 0.6;
+    margin-bottom: 18px;
+}
+
+/* ======== Inputs ======== */
+
+.authCard input {
+    width: 100%;
+    padding: 11px;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    border: none;
+    outline: none;
+    background: #111827;
+    color: white;
+    font-size: 14px;
+}
+
+/* Focus State */
+.authCard input:focus {
+    outline: 1px solid #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* ======== Button ======== */
+
+.authCard button {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    border: none;
+    background: #3b82f6;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s;
+    margin-top: 6px;
+}
+
+.authCard button:hover {
+    background: #2563eb;
+}
+
+/* ======== Switch Link ======== */
+
+.switchText {
+    margin-top: 14px;
+    font-size: 13px;
+    opacity: 0.7;
+}
+
+.switchText a {
+    color: #60a5fa;
+    text-decoration: none;
+}
+
+.switchText a:hover {
+    text-decoration: underline;
+}
+
+/* ======== Toast ======== */
+
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #22c55e;
+    color: white;
+    padding: 10px 14px;
+    border-radius: 10px;
+    z-index: 9999;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    animation: slideIn 0.2s ease;
+}
+
+/* ======== Animations ======== */
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ======== Tablet (>= 640px) ======== */
+
+@media (min-width: 640px) {
+    .authCard {
+        max-width: 420px;
+        padding: 26px;
+    }
+
+    .authCard h1 {
+        font-size: 24px;
+    }
+
+    .authCard input {
+        font-size: 15px;
+    }
+}
+
+/* ======== Desktop (>= 1024px) ======== */
+@media (min-width: 1024px) {
+    .authCard {
+        max-width: 440px;
+        padding: 30px;
+    }
+
+    .authCard h1 {
+        font-size: 26px;
+    }
+
+    .authCard button {
+        font-size: 15px;
+    }
+}
