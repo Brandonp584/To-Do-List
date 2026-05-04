@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FiEdit2 } from "react-icons/fi";
 
-function TaskCard({ task, deleteTask, toggleComplete }) {
+function TaskCard({ task, deleteTask, toggleComplete, updateTask }) {
   const [editing, setEditing] = useState(false);
   const [newTitle, setNewTitle] = useState(task.title);
 
@@ -10,7 +10,7 @@ function TaskCard({ task, deleteTask, toggleComplete }) {
   const saveEdit = async () => {
     if (!newTitle.trim()) return;
 
-    await fetch(`http://localhost:5000/api/tasks/${task._id}`, {
+    const res = await fetch(`http://localhost:5000/api/tasks/${task._id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -20,6 +20,11 @@ function TaskCard({ task, deleteTask, toggleComplete }) {
         title: newTitle
       })
     });
+
+    const updatedTask = await res.json();
+
+    // update UI without reload
+    updateTask(updatedTask);
 
     setEditing(false);
   };
@@ -43,7 +48,7 @@ function TaskCard({ task, deleteTask, toggleComplete }) {
         ) : (
           <span
             className={task.completed ? "done" : ""}
-            onClick={() => toggleComplete(task)}
+            onClick={() => !editing && toggleComplete(task)}
           >
             {task.title}
           </span>
@@ -54,9 +59,8 @@ function TaskCard({ task, deleteTask, toggleComplete }) {
         )}
       </div>
 
-      {/* RIGHT ACTIONS */}
+      {/* RIGHT SIDE */}
       <div className="taskActions">
-
         <button
           className="editBtn"
           onClick={() => setEditing(true)}
@@ -70,7 +74,6 @@ function TaskCard({ task, deleteTask, toggleComplete }) {
         >
           Delete
         </button>
-
       </div>
 
     </div>

@@ -97,6 +97,14 @@ function Tasks() {
     fetchTasks();
   };
 
+  const updateTasks = (updatedTasks) => {
+    setTasks(prev =>
+      prev.map(t =>
+        t._id === updatedTasks._id ? updatedTasks : t
+      )
+    );
+  }
+
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("name");
@@ -138,6 +146,7 @@ function Tasks() {
                 task={task}
                 deleteTask={deleteTask}
                 toggleComplete={toggleComplete}
+                updateTask={updateTasks}
               />
             ))
           )}
