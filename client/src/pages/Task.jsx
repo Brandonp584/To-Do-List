@@ -7,8 +7,9 @@ function Tasks() {
   const [tasks, setTasks] = useState([]);
   const [title, setTitle] = useState("");
   const [toast, setToast] = useState("");
-  const [ filter, setFilter] = useState("all");
-  
+  const [filter, setFilter] = useState("all");
+  const [loading, setLoading] = useState(true);
+
   const name = localStorage.getItem("name") || "User";
 
   const navigate = useNavigate();
@@ -21,10 +22,15 @@ function Tasks() {
       }
     })
       .then(res => res.json())
-      .then(data => setTasks(data));
+      .then(data => {
+        setTimeout(() => {
+          setTasks(data);
+          setLoading(false);
+        }, 1000);
+      })
+      .catch(() => setLoading(false));
   }, [token]);
 
-  // Protect page
   useEffect(() => {
     const token = localStorage.getItem("token");
 
@@ -35,7 +41,6 @@ function Tasks() {
     }
   }, [navigate, fetchTasks]);
 
-  // Filter logic
   const filteredTasks = tasks.filter((task) => {
     if (filter === "active") return !task.completed;
     if (filter === "completed") return task.completed;
@@ -56,6 +61,7 @@ function Tasks() {
 
     setTitle("");
     setToast("Task added successfully!");
+    setLoading(true);
     fetchTasks();
   };
 
@@ -68,6 +74,7 @@ function Tasks() {
     });
 
     setToast("Task deleted successfully!");
+    setLoading(true);
     fetchTasks();
   };
 
@@ -110,24 +117,13 @@ function Tasks() {
 
         {/* Filters */}
         <div className="filters">
-          <button
-            className={filter === "all" ? "activeFilter" : ""}
-            onClick={() => setFilter("all")}
-          >
+          <button className={filter === "all" ? "activeFilter" : ""} onClick={() => setFilter("all")}>
             All
           </button>
-
-          <button
-            className={filter === "active" ? "activeFilter" : ""}
-            onClick={() => setFilter("active")}
-          >
+          <button className={filter === "active" ? "activeFilter" : ""} onClick={() => setFilter("active")}>
             Active
           </button>
-
-          <button
-            className={filter === "completed" ? "activeFilter" : ""}
-            onClick={() => setFilter("completed")}
-          >
+          <button className={filter === "completed" ? "activeFilter" : ""} onClick={() => setFilter("completed")}>
             Completed
           </button>
         </div>
@@ -142,9 +138,17 @@ function Tasks() {
           <button onClick={addTask}>Add</button>
         </div>
 
-        {/* Task List */}
+        {/* TASK LIST */}
         <div className="taskList">
-          {filteredTasks.length === 0 ? (
+
+          {/* 🔥 SKELETON LOADING */}
+          {loading ? (
+            <>
+              <div className="skeletonCard"></div>
+              <div className="skeletonCard"></div>
+              <div className="skeletonCard"></div>
+            </>
+          ) : filteredTasks.length === 0 ? (
             <p className="empty">No tasks yet. Add one 🚀</p>
           ) : (
             filteredTasks.map(task => (
@@ -167,6 +171,7 @@ function Tasks() {
             ))
           )}
         </div>
+
         {toast && (
           <Toast
             message={toast}
