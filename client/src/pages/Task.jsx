@@ -1,7 +1,12 @@
 import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/tasks.css";
+
 import Toast from "../components/Toast";
+import TaskFilters from "../components/TaskFilters";
+import TaskInput from "../components/TaskInput";
+import TaskCard from "../components/TaskCard";
+import SkeletonLoader from "../components/SkeletonLoader";
 
 function Tasks() {
   const [tasks, setTasks] = useState([]);
@@ -10,10 +15,10 @@ function Tasks() {
   const [filter, setFilter] = useState("all");
   const [loading, setLoading] = useState(true);
 
-  const name = localStorage.getItem("name") || "User";
-
   const navigate = useNavigate();
+
   const token = localStorage.getItem("token");
+  const name = localStorage.getItem("name") || "User";
 
   const fetchTasks = useCallback(() => {
     fetch("http://localhost:5000/api/tasks", {
@@ -32,16 +37,14 @@ function Tasks() {
   }, [token]);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-
     if (!token) {
       navigate("/");
     } else {
       fetchTasks();
     }
-  }, [navigate, fetchTasks]);
+  }, [token, navigate, fetchTasks]);
 
-  const filteredTasks = tasks.filter((task) => {
+  const filteredTasks = tasks.filter(task => {
     if (filter === "active") return !task.completed;
     if (filter === "completed") return task.completed;
     return true;
@@ -115,59 +118,27 @@ function Tasks() {
           </button>
         </div>
 
-        {/* Filters */}
-        <div className="filters">
-          <button className={filter === "all" ? "activeFilter" : ""} onClick={() => setFilter("all")}>
-            All
-          </button>
-          <button className={filter === "active" ? "activeFilter" : ""} onClick={() => setFilter("active")}>
-            Active
-          </button>
-          <button className={filter === "completed" ? "activeFilter" : ""} onClick={() => setFilter("completed")}>
-            Completed
-          </button>
-        </div>
+        <TaskFilters filter={filter} setFilter={setFilter} />
 
-        {/* Input */}
-        <div className="inputRow">
-          <input
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Enter task..."
-          />
-          <button onClick={addTask}>Add</button>
-        </div>
+        <TaskInput
+          title={title}
+          setTitle={setTitle}
+          addTask={addTask}
+        />
 
-        {/* TASK LIST */}
         <div className="taskList">
-
-          {/* 🔥 SKELETON LOADING */}
           {loading ? (
-            <>
-              <div className="skeletonCard"></div>
-              <div className="skeletonCard"></div>
-              <div className="skeletonCard"></div>
-            </>
+            <SkeletonLoader />
           ) : filteredTasks.length === 0 ? (
             <p className="empty">No tasks yet. Add one 🚀</p>
           ) : (
             filteredTasks.map(task => (
-              <div className="taskCard" key={task._id}>
-                <span
-                  className={task.completed ? "done" : ""}
-                  onClick={() => toggleComplete(task)}
-                >
-                  {task.title}
-                </span>
-
-                {task.completed && (
-                  <small className="badge">Done</small>
-                )}
-
-                <button onClick={() => deleteTask(task._id)}>
-                  Delete
-                </button>
-              </div>
+              <TaskCard
+                key={task._id}
+                task={task}
+                deleteTask={deleteTask}
+                toggleComplete={toggleComplete}
+              />
             ))
           )}
         </div>
