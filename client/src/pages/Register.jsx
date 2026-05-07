@@ -4,6 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import Toast from "../components/Toast";
 import "../styles/auth.css";
+import "../styles/global.css";
 
 function Register() {
     const navigate = useNavigate();
