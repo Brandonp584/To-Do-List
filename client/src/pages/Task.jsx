@@ -21,7 +21,7 @@ function Tasks() {
   const name = localStorage.getItem("name") || "User";
 
   const fetchTasks = useCallback(() => {
-    fetch("http://localhost:5000/api/tasks", {
+    fetch(`${import.meta.env.VITE_API_URL}/api/tasks`, {
       headers: {
         Authorization: token
       }

@@ -10,7 +10,7 @@ function TaskCard({ task, deleteTask, toggleComplete, updateTask }) {
   const saveEdit = async () => {
     if (!newTitle.trim()) return;
 
-    const res = await fetch(`http://localhost:5000/api/tasks/${task._id}`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/${task._id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
