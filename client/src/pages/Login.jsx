@@ -14,11 +14,12 @@ function Login() {
     const [showPassword, setShowPassword] = useState(false);
 
     const login = async () => {
+    try {
         setLoading(true);
 
         const start = Date.now();
 
-        const res = await fetch(`${import.meta.env.VIT_API_URL}/api/auth/login`, {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, password })
@@ -27,7 +28,7 @@ function Login() {
         const data = await res.json();
 
         const elapsed = Date.now() - start;
-        const delay = Math.max(1000 - elapsed, 0 );
+        const delay = Math.max(200 - elapsed, 0);
 
         setTimeout(() => {
             setLoading(false);
@@ -40,12 +41,17 @@ function Login() {
 
                 setTimeout(() => {
                     navigate("/tasks");
-                }, 700);
+                }, 500);
             } else {
                 setToast(data.message || "Login Failed!");
             }
         }, delay);
-    };
+    } catch (error) {
+        console.error("LOGIN ERROR:", error);
+        setLoading(false);
+        setToast("Server connection failed");
+    }
+};
 
     useEffect(() => {
         const token = localStorage.getItem("token");

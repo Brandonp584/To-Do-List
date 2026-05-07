@@ -16,34 +16,45 @@ function Register() {
     const [showPassword, setShowPassword] = useState(false);
 
     const register = async () => {
-        setLoading(true);
+        try {
+            setLoading(true);
 
-        const start = Date.now();
+            console.log("API URL:", import.meta.env.VITE_API_URL);
 
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/register`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name, email, password })
-        });
+            const start = Date.now();
 
-        const data = await res.json();
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/register`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, email, password })
+            });
 
-        const elapsed = Date.now() - start;
-        const delay = Math.max(1000 - elapsed, 0)
+            const data = await res.json();
 
-        setTimeout(() => {
+            console.log("REGISTER STATUS:", res.status);
+            console.log("REGISTER DATA:", data);
+
+            const elapsed = Date.now() - start;
+            const delay = Math.max(200 - elapsed, 0);
+
+            setTimeout(() => {
+                setLoading(false);
+
+                if (res.ok) {
+                    setToast("Registration successful! Redirecting...");
+
+                    setTimeout(() => {
+                        navigate("/");
+                    }, 500);
+                } else {
+                    setToast(data.message || "Registration Failed!");
+                 }
+            }, delay);
+        } catch (error) {
+            console.error("REGISTER ERROR:", error);
             setLoading(false);
-        
-            if (res.ok) {
-                setToast("Registration successful! Redirecting...");
-
-                setTimeout(() => {
-                    navigate("/");
-                }, 800);
-            } else {
-                (data.message || "Registration Failed!");
-            }
-        }, delay);
+            setToast("Server connection failed");
+        }
     };
 
     useEffect(() => {
@@ -61,14 +72,16 @@ function Register() {
                 <h1>Create Account</h1>
                 <p className="subText">Sign up to get started</p>
 
-                <input disable={loading}
+                <input 
                     placeholder="Name"
                     onChange={(e) => setName(e.target.value)}
+                    disabled={loading}
                 />
 
-                <input disabled={loading}
+                <input 
                     placeholder="Email"
                     onChange={(e) => setEmail(e.target.value)}
+                    disabled={loading}
                 />
 
                 <div className="passwordWrapper">

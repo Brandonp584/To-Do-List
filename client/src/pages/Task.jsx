@@ -31,7 +31,7 @@ function Tasks() {
         setTimeout(() => {
           setTasks(data);
           setLoading(false);
-        }, 1000);
+        }, 250);
       })
       .catch(() => setLoading(false));
   }, [token]);
@@ -53,7 +53,7 @@ function Tasks() {
   const addTask = async () => {
     if (!title) return;
 
-    await fetch("http://localhost:5000/api/tasks", {
+    await fetch(`${import.meta.env.VITE_API_URL}/api/tasks`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -69,7 +69,7 @@ function Tasks() {
   };
 
   const deleteTask = async (id) => {
-    await fetch(`http://localhost:5000/api/tasks/${id}`, {
+    await fetch(`${import.meta.env.VITE_API_URL}/api/tasks/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: token
@@ -82,7 +82,7 @@ function Tasks() {
   };
 
   const toggleComplete = async (task) => {
-    await fetch(`http://localhost:5000/api/tasks/${task._id}`, {
+    await fetch(`S{import.meta.env.VITE_API_URL}/api/tasks/${task._id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
