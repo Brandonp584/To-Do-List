@@ -40,23 +40,65 @@
 
 .authCard input {
     width: 100%;
-    padding: 11px;
-    margin-bottom: 10px;
+    padding: 11px 42px 11px 11px;
     border-radius: 12px;
     border: none;
     outline: none;
     background: #111827;
     color: white;
     font-size: 14px;
+    box-sizing: border-box;
+}
+
+/* spacing only for normal inputs */
+.authCard > input {
+    margin-bottom: 10px;
 }
 
 /* Focus State */
+
 .authCard input:focus {
     outline: 1px solid #3b82f6;
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
 }
 
-/* ======== Button ======== */
+/* ======== Password Wrapper ======== */
+
+.passwordWrapper {
+    position: relative;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+/* ======== Show / Hide Icon ======== */
+
+.passwordToggle {
+    position: absolute;
+    top: 50%;
+    right: 14px;
+    transform: translateY(-50%);
+
+    background: transparent !important;
+    border: none !important;
+
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+    margin: 0;
+    width: auto !important;
+    box-shadow: none !important;
+}
+
+.passwordToggle:hover {
+    color: white;
+}
+
+/* ======== Main Buttons ======== */
 
 .authCard button {
     width: 100%;
@@ -114,6 +156,7 @@
         opacity: 0;
         transform: translateY(-10px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -138,6 +181,7 @@
 }
 
 /* ======== Desktop (>= 1024px) ======== */
+
 @media (min-width: 1024px) {
     .authCard {
         max-width: 440px;

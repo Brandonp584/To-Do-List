@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 import Toast from "../components/Toast";
 import "../styles/auth.css";
 
@@ -12,6 +13,7 @@ function Register() {
     const [password, setPassword] = useState("");
     const [toast, setToast] = useState("");
     const [loading, setLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
     const register = async () => {
         setLoading(true);
@@ -69,11 +71,22 @@ function Register() {
                     onChange={(e) => setEmail(e.target.value)}
                 />
 
-                <input disabled={loading}
-                    placeholder="Password"
-                    type="password"
-                    onChange={(e) => setPassword(e.target.value)}
-                />
+                <div className="passwordWrapper">
+                    <input 
+                        placeholder="Password"
+                        type={showPassword ? "text" : "password"}
+                        onChange={(e) => setPassword(e.target.value)}
+                        disabled={loading}
+                    />
+
+                    <button 
+                        type="button"
+                        className="passwordToggle"
+                        onClick={() => setShowPassword(!showPassword)}
+                    >
+                        {showPassword ? <FiEyeOff /> : <FiEye />}
+                    </button>
+                </div>
 
                 <button onClick={register} disabled={loading}>
                     {loading ? "Creating Account..." : "Register"}
