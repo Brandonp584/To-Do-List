@@ -1,21 +1,32 @@
 /* ========== Base (Mobile First) ========== */
 
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
 .authPage {
-    min-height: 100vh;
+    min-height: 100dvh;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: 16px;
     background: linear-gradient(135deg, #0f172a, #1e293b);
     font-family: system-ui, -apple-system, sans-serif;
 }
 
 .authCard {
     width: 100%;
-    min-width: 360px;
+    max-width: 360px;
     background: rgba(17, 24, 39, 0.6);
     backdrop-filter: blur(10px);
-    padding: 20px;
+    padding: 18px;
     border-radius: 16px;
     color: white;
     border: 1px solid rgba(255, 255, 255, 0.05);
@@ -27,13 +38,13 @@
 
 .authCard h1 {
     font-size: 20px;
-    margin-bottom: 6px;
+    margin: 0 0 6px;
 }
 
 .subText {
     font-size: 13px;
     opacity: 0.6;
-    margin-bottom: 18px;
+    margin: 0 0 18px;
 }
 
 /* ======== Inputs ======== */
@@ -47,15 +58,11 @@
     background: #111827;
     color: white;
     font-size: 14px;
-    box-sizing: border-box;
 }
 
-/* spacing only for normal inputs */
 .authCard > input {
     margin-bottom: 10px;
 }
-
-/* Focus State */
 
 .authCard input:focus {
     outline: 1px solid #3b82f6;
@@ -70,24 +77,18 @@
     margin-bottom: 10px;
 }
 
-/* ======== Show / Hide Icon ======== */
-
 .passwordToggle {
     position: absolute;
     top: 50%;
     right: 14px;
     transform: translateY(-50%);
-
     background: transparent !important;
     border: none !important;
-
     color: rgba(255, 255, 255, 0.7);
     cursor: pointer;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     padding: 0;
     margin: 0;
     width: auto !important;
@@ -140,6 +141,7 @@
     position: fixed;
     top: 20px;
     right: 20px;
+    max-width: calc(100vw - 32px);
     background: #22c55e;
     color: white;
     padding: 10px 14px;
@@ -166,6 +168,10 @@
 /* ======== Tablet (>= 640px) ======== */
 
 @media (min-width: 640px) {
+    .authPage {
+        padding: 20px;
+    }
+
     .authCard {
         max-width: 420px;
         padding: 26px;
