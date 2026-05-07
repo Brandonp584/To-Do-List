@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useEffect} from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Toast from "../components/Toast";
 import "../styles/auth.css";
@@ -8,8 +9,13 @@ function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [toast, setToast] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const login = async () => {
+        setLoading(true);
+
+        const start = Date.now();
+
         const res = await fetch("http://localhost:5000/api/auth/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -18,19 +24,34 @@ function Login() {
 
         const data = await res.json();
 
-        if (data.token) {
-            localStorage.setItem("token", data.token);
-            localStorage.setItem("name", data.user.name);
+        const elapsed = Date.now() - start;
+        const delay = Math.max(1000 - elapsed, 0 );
 
-            setToast("Login successful!");
+        setTimeout(() => {
+            setLoading(false);
 
-            setTimeout(() => {
-                navigate("/tasks");
-            }, 700);
-        } else {
-            setToast(data.message || "Login Failed!");
-        }
+            if (data.token) {
+                localStorage.setItem("token", data.token);
+                localStorage.setItem("name", data.user.name);
+
+                setToast("Login successful!");
+
+                setTimeout(() => {
+                    navigate("/tasks");
+                }, 700);
+            } else {
+                setToast(data.message || "Login Failed!");
+            }
+        }, delay);
     };
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+
+        if (token) {
+            navigate("/tasks");
+        }
+    }, [navigate]);
 
     return (
         <div className="authPage">
@@ -39,18 +60,20 @@ function Login() {
                 <h1>Welcome Back</h1>
                 <p className="subText">Login to continue</p>
 
-                <input
+                <input disabled={loading}
                     placeholder="Email"
                     onChange={(e) => setEmail(e.target.value)}
                 />
 
-                <input
+                <input disabled={loading}
                     placeholder="Password"
                     type="password"
                     onChange={(e) => setPassword(e.target.value)}
                 />
 
-                <button onClick={login}>Login</button>
+                <button onClick={login} disabled={loading}>
+                    {loading ? "Signing in..." : "Login"}
+                </button>
 
                 <p className="switchText">
                     Don’t have an account?{" "}
