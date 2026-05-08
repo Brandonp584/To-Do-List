@@ -10,14 +10,14 @@ function TaskCard({ task, deleteTask, toggleComplete, updateTask }) {
   const saveEdit = async () => {
     if (!newTitle.trim()) return;
 
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/${task._id}`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/tasks/${task._id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Authorization: token
       },
       body: JSON.stringify({
-        title: newTitle
+        title: newTitle.trim()
       })
     });
 
@@ -25,7 +25,6 @@ function TaskCard({ task, deleteTask, toggleComplete, updateTask }) {
 
     // update UI without reload
     updateTask(updatedTask);
-
     setEditing(false);
   };
 
@@ -41,8 +40,12 @@ function TaskCard({ task, deleteTask, toggleComplete, updateTask }) {
             onChange={(e) => setNewTitle(e.target.value)}
             onBlur={saveEdit}
             onKeyDown={(e) => {
-              if (e.key === "Enter") saveEdit();
+              if (e.key === "Enter") {
+                e.preventDefault();
+                saveEdit();
+              }
             }}
+            enterKeyHint="done"
             autoFocus
           />
         ) : (
