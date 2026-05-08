@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { useEffect} from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import Toast from "../components/Toast";
@@ -13,6 +12,7 @@ function Login() {
     const [toast, setToast] = useState("");
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const passwordRef = useRef(null);
 
     const login = async () => {
     try {
@@ -54,7 +54,14 @@ function Login() {
     }
 };
 
-const handleEnterLogin = (e) => {
+const handleEmailEnter = (e) => {
+    if (e.key === "Enter") {
+        e.preventDefault();
+        passwordRef.current?.focus();
+    }
+};
+
+const handlePasswordEnter = (e) => {
     if (e.key === "Enter" && !loading) {
         e.preventDefault();
         login();
@@ -80,17 +87,18 @@ const handleEnterLogin = (e) => {
                     disabled={loading}
                     placeholder="Email"
                     onChange={(e) => setEmail(e.target.value)}
-                    onKeyDown={handleEnterLogin}
+                    onKeyDown={handleEmailEnter}
                     enterKeyHint="next"
                 />
                 <div className="passwordWrapper">
 
                     <input 
+                        ref={passwordRef}
                         placeholder="Password"
                         type={showPassword ? "text" : "password"}
                         onChange={(e) => setPassword(e.target.value)}
                         disabled={loading}
-                        onKeyDown={handleEnterLogin}
+                        onKeyDown={handlePasswordEnter}
                         enterKeyHint="done"
                     />
 

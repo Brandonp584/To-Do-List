@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import Toast from "../components/Toast";
@@ -15,6 +14,8 @@ function Register() {
     const [toast, setToast] = useState("");
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const emailRef = useRef(null);
+    const passwordRef = useRef(null);
 
     const register = async () => {
         try {
@@ -58,6 +59,27 @@ function Register() {
         }
     };
 
+    const handleNameEnter = (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            emailRef.current?.focus();
+        }
+    };
+
+    const handleEmailEnter =(e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            passwordRef.current?.focus();
+        }
+    };
+
+    const handlePasswordEnter = (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            register();
+        }
+    };
+
     useEffect(() => {
         const token = localStorage.getItem("token");
 
@@ -77,20 +99,28 @@ function Register() {
                     placeholder="Name"
                     onChange={(e) => setName(e.target.value)}
                     disabled={loading}
+                    onKeyDown={handleNameEnter}
+                    enterKeyHint="next"
                 />
 
                 <input 
+                    ref={emailRef}
                     placeholder="Email"
                     onChange={(e) => setEmail(e.target.value)}
                     disabled={loading}
+                    onKeyDown={handleEmailEnter}
+                    enterKeyHint="next"
                 />
 
                 <div className="passwordWrapper">
                     <input 
+                        ref={passwordRef}
                         placeholder="Password"
                         type={showPassword ? "text" : "password"}
                         onChange={(e) => setPassword(e.target.value)}
                         disabled={loading}
+                        onKeyDown={handlePasswordEnter}
+                        enterKeyHint="done"
                     />
 
                     <button 
