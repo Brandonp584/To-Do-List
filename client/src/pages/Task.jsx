@@ -51,9 +51,9 @@ function Tasks() {
   });
 
   const addTask = async () => {
-    if (!title) return;
+    if (!title.trim()) return;
 
-    await fetch(`${import.meta.env.VITE_API_URL}/api/tasks`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/tasks`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -62,10 +62,11 @@ function Tasks() {
       body: JSON.stringify({ title })
     });
 
+    const newTask = await res.json();
+
+    setTasks(prev => [newTask, ...prev]);
     setTitle("");
-    setToast("Task added successfully!");
-    setLoading(true);
-    fetchTasks();
+    setToast("Task add successfully!");
   };
 
   const deleteTask = async (id) => {
@@ -76,9 +77,8 @@ function Tasks() {
       }
     });
 
-    setToast("Task deleted successfully!");
-    setLoading(true);
-    fetchTasks();
+    setTasks(prev => prev.filter(task => task._id !== id));
+    setToast("Task deleted successfully!");    
   };
 
   const toggleComplete = async (task) => {
