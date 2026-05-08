@@ -82,7 +82,7 @@ function Tasks() {
   };
 
   const toggleComplete = async (task) => {
-    await fetch(`S{import.meta.env.VITE_API_URL}/api/tasks/${task._id}`, {
+    await fetch(`${import.meta.env.VITE_API_URL}/api/tasks/${task._id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -138,7 +138,7 @@ function Tasks() {
           {loading ? (
             <SkeletonLoader />
           ) : filteredTasks.length === 0 ? (
-            <p className="empty">No tasks yet. Add one 🚀</p>
+            <p className="empty">No tasks yet. Add one.</p>
           ) : (
             filteredTasks.map(task => (
               <TaskCard

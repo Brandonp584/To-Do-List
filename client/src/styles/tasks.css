@@ -5,21 +5,24 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    padding: 20px;
-    background: linear-gradient(135deg, #e0f2fe, #f8fafc);
+    padding: 36px 16px;
+    background: 
+        radial-gradient(circle at top, rgba(59, 130, 246, 0.24), transparent 34%),
+        radial-gradient(circle at bottom right, rgba(14, 165, 233, 0.14), transparent 32%),
+        linear-gradient(135deg, #dbeafe, #e2e8f0);
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
 .card {
     width: 100%;
-    max-width: 420px;
-    background: rgba(17, 24, 39, 0.5);
-    padding: 18px;
+    max-width: 560px;
+    background: rgba(15, 23, 42, 0.88);
+    padding: 20px;
     border-radius: 18px;
     color: white;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 24px 70px rgba(15, 23, 42, 0.32);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 /* HEADER */
@@ -81,7 +84,8 @@
 }
 
 .activeFilter {
-    background: rgba(59, 130, 246, 0.15);
+    background: #3b82f6 !important;
+    border-color: #3b82f6 !important;
 }
 
 /* Input row */
@@ -93,6 +97,7 @@
 
 .inputRow input {
     flex: 1;
+    min-width: 0;
     padding: 11px;
     border-radius: 12px;
     border: none;
@@ -100,6 +105,11 @@
     background: #111827;
     color: white;
     font-size: 14px;
+}
+
+.inputRow input:focus {
+    outline: 1px solid #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
 }
 
 .inputRow button {
@@ -151,20 +161,22 @@
 
 /* Task Card */
 .taskCard {
-    background: rgba(31, 41, 55, 0.08);
-    padding: 14px;
+    min-height: 112px;
+    background: rgba(30, 41, 59, 0.78);
+    padding: 16px;
     border-radius: 14px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    justify-content: space-between;
+    gap: 14px;
     transition: all 0.2s ease;
-    border: 1px solid transparent;
+    border: 1px solid rgba(148, 163, 184, 0.12);
     animation: fadeIn 0.25s ease-in-out;
 }
 
 .taskCard:hover {
     transform: translateY(-2px);
-    border-color: rgba(59, 130, 246, 0.04);
+    border-color: rgba(59, 130, 246, 0.35);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
 }
 
@@ -176,6 +188,7 @@
 .taskCard span {
     cursor: pointer;
     font-size: 14px;
+    color: #f8fafc;
     transition: 0.2s;
 }
 
@@ -204,6 +217,7 @@
     justify-content: flex-end;
     gap: 8px;
     width: 100%;
+    margin-top: auto;
 }
 
 .editBtn {
@@ -303,7 +317,7 @@
 /* ========== Tablet (>= 640px) ========== */
 @media (min-width: 640px) {
     .card {
-        padding: 22px;
+        padding: 24px;
     }
 
     .header h1 {
@@ -325,9 +339,13 @@
 
 /* ========== Desktop (>= 1024px) ========== */
 @media (min-width: 1024px) {
+    .app {
+        padding-top: 48px;
+    }
+
     .card {
-        max-width: 500px;
-        padding: 25px;
+        max-width: 620px;
+        padding: 28px;
     }
 
     .logoutBtn {
