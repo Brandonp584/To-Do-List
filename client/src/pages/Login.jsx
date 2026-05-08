@@ -54,6 +54,13 @@ function Login() {
     }
 };
 
+const handleEnterLogin = (e) => {
+    if (e.key === "Enter" && !loading) {
+        e.preventDefault();
+        login();
+    }
+};
+
     useEffect(() => {
         const token = localStorage.getItem("token");
 
@@ -69,9 +76,12 @@ function Login() {
                 <h1>Welcome Back</h1>
                 <p className="subText">Login to continue</p>
 
-                <input disabled={loading}
+                <input 
+                    disabled={loading}
                     placeholder="Email"
                     onChange={(e) => setEmail(e.target.value)}
+                    onKeyDown={handleEnterLogin}
+                    enterKeyHint="next"
                 />
                 <div className="passwordWrapper">
 
@@ -80,6 +90,8 @@ function Login() {
                         type={showPassword ? "text" : "password"}
                         onChange={(e) => setPassword(e.target.value)}
                         disabled={loading}
+                        onKeyDown={handleEnterLogin}
+                        enterKeyHint="done"
                     />
 
                     <button 
