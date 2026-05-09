@@ -1,184 +1,222 @@
 # 🚀 Full Stack Task Manager
 
-A modern full-stack task management application built with the MERN stack. It includes secure authentication, protected routes, responsive UI, inline task editing, skeleton loading states, toast notifications, and a polished SaaS-style user experience.
+A modern full-stack task management application built with the MERN stack. It features secure authentication, protected routes, drag-and-drop task reordering, responsive UI, inline editing, skeleton loading states, toast notifications, and a polished SaaS-style user experience.
 
 ## ✨ Features
 
 ### 🔐 Authentication
 
-- User registration & Login
-- JWT authentication
-- Protected routes
-- Persistent sessions with localStorage
-- Show / Hide password toggle
+- User Registration & Login
+- JWT Authentication
+- Protected Routes
+- Persistent Sessions with localStorage
+- Show / Hide Password Toggle
 
-### ✅ Task Mangement
+### ✅ Task Management
 
 - Create Tasks
 - Delete Tasks
-- Mark tasks complete/incomplete
-- Inline task editing
-- Filter tasks by:
-    - All
-    - Active
-    - Complete
+- Inline Task Editing
+- Mark Tasks Complete / Incomplete
+- Drag & Drop Task Reordering
+- Persistent Task Ordering
+- Filter Tasks by:
+  - All
+  - Active
+  - Completed
 
-### 🎨 UX/UI
+### 🎨 UX / UI
 
-- Responsive mobile-first design
-- Skeleton Loading states
+- Responsive Mobile-First Design
+- Skeleton Loading States
 - Toast Notifications
-- Smooth animation & micro-interactions
-- Mobile / Desktop / Tablet breakpoints
+- Smooth Animations & Micro-Interactions
+- Mobile / Tablet / Desktop Breakpoints
+- Modern Glassmorphism-Inspired UI
 
-### 🧠 Developer features
+### 🧠 Developer Features
 
-- Component-based architecture
-- Resusable React components
-- Organized folder structure
-- REST API backend
-- MongoDB database integration
+- Component-Based Architecture
+- Reusable React Components
+- Modular Folder Structure
+- REST API Backend
+- MongoDB Database Integration
+- Sortable Drag & Drop Architecture
+- Service-Based API Structure
 
 ## 🛠 Tech Stack
 
-### Frontend:
+### Frontend
+
 - React
 - React Router
+- Vite
 - CSS3
 - React Icons
-- Vite
+- dnd-kit
 
-### Backend:
+### Backend
+
 - Node.js
 - Express.js
-- MongoDB
+- MongoDB Atlas
 - Mongoose
 - JWT
 - bcryptjs
 
-### 📸 Screenshots
+## 📸 Screenshots
 
-- Adding Later:
-- Examples:
-- Login Page:
-- Register Page:
-- Task Dashboard:
-- Mobile responsive view:
+### Planned Screenshots
 
-### 📂 Project Structure
-```
+- Login Page
+- Register Page
+- Task Dashboard
+- Drag & Drop Task Reordering
+- Mobile Responsive View
+
+## 📂 Project Structure
+
+```txt
 client/
 │
 ├── src/
 │   ├── components/
-│   │   ├── ProtectRoutes.jsx
+│   │   ├── ProtectedRoutes.jsx
 │   │   ├── SkeletonLoader.jsx
+│   │   ├── SortableTask.jsx
 │   │   ├── TaskCard.jsx
 │   │   ├── TaskFilters.jsx
 │   │   ├── TaskInput.jsx
+│   │   ├── TaskList.jsx
 │   │   └── Toast.jsx
 │   │
 │   ├── pages/
 │   │   ├── Login.jsx
 │   │   ├── Register.jsx
-│   │   └── Tasks.jsx
+│   │   └── Task.jsx
+│   │
+│   ├── services/
+│   │   └── taskService.js
 │   │
 │   ├── styles/
 │   │   ├── auth.css
+│   │   ├── global.css
 │   │   └── tasks.css
 │   │
-│   └── App.jsx
+│   ├── App.jsx
+│   └── main.jsx
 │
 server/
 │
-├── routes/
 ├── middleware/
 ├── models/
+├── routes/
 ├── .env
 └── server.js
 ```
 
-### ⚙️ Installation
-- 1: Clone Repository
-Git Clone https://github.com/Brandonp584/To-Do-List
+## ⚙️ Installation
 
-- 2: Install Frontend Dependencies
+### 1️⃣ Clone Repository
+
+```bash
+git clone https://github.com/Brandonp584/To-Do-List
 ```
+
+### 2️⃣ Install Frontend Dependencies
+
+```bash
 cd client
 npm install
 ```
 
-- 3: Install Backend Depenedenices
-```
+### 3️⃣ Install Backend Dependencies
+
+```bash
 cd ../server
 npm install
 ```
 
-### 🔑 Environment Variables
+## 🔑 Environment Variables
 
-- Create a .env file inside /server
-```
+Create a `.env` file inside `/server`
+
+```env
 MONGO_URI=your_mongodb_connection
 JWT_SECRET=your_secret_key
 PORT=5000
 ```
-### ▶️ Run Locally
-- Start Backend:
+
+Create a `.env` file inside `/client`
+
+```env
+VITE_API_URL=http://localhost:5000
 ```
+
+## ▶️ Run Locally
+
+### Start Backend
+
+```bash
 cd server
 npm run dev
 ```
 
-- Start Frontend
-```
+### Start Frontend
+
+```bash
 cd client
 npm run dev
 ```
-### 🌐 Deployment
 
-- This Project uses a separted deployment setup:
+## 🌐 Deployment
 
-- The React Frontend is deployed on netlify.
-- The Node/Express backend is deployed on Render.
+This project uses a separated deployment setup:
 
-- MongoDB Atlas is ude for the cloud database.
+- Frontend deployed on Netlify
+- Backend deployed on Render
+- Database hosted on MongoDB Atlas
 
-### 📱 Responsive Design
+## 📱 Responsive Design
+
+Built with a mobile-first workflow using progressive media queries.
 
 - 📱 Mobile
 - 📲 Tablet
 - 💻 Desktop
 
-Built using a mobile-first worklow with progressive media queries.
+## 🧩 Future Improvements
 
-### 🧩 Future Improvements
-
-- Drag & Drop Tasks
 - Due Dates
 - Task Priorities
-- Serach Functionality
-- Light/Dark Mode Toggle
+- Search Functionality
+- Light / Dark Mode Toggle
 - User Profile Settings
+- Task Categories
+- Task Analytics Dashboard
+- Real-Time Sync
 
-### 📚 What I learned
+## 📚 What I Learned
 
-Through Building this project I improved my skills in:
+Through building this project I improved my skills in:
 
-- Full-Stack application architecture
+- Full-Stack MERN Architecture
 - REST API Development
 - Authentication & Authorization
-- State Management in React
+- React State Management
+- Component Refactoring
+- Drag & Drop UI Architecture
 - Responsive UI Design
-- Component Refacting
-- Async JavaScript & API handling
-- UX/UI polish techniques
+- Async JavaScript & API Handling
+- UX/UI Polish Techniques
+- MongoDB Data Modeling
 
-### Author
+## 👨‍💻 Author
 
-Frontend and Backend developer for this project.
+Frontend & Backend Developer for this project.
 
-- GitHub: [Brandon]https://github.com/Brandonp584
+- GitHub: https://github.com/Brandonp584
 
-### ⭐ Licence
+## ⭐ License
 
-This project is open source and available under the MIT Licence.
+This project is open source and available under the MIT License.
