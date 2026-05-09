@@ -145,6 +145,18 @@
     gap: 10px;
 }
 
+.sortableTask {
+    touch-action: none;
+}
+
+.sortableTask .taskCard {
+    cursor: grab;
+}
+
+.sortableTask:active .taskCard {
+    cursor: grabbing;
+}
+
 /* Skeleton Loading Cards */
 .skeletonCard {
     height: 58px;

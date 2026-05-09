@@ -2,11 +2,22 @@ import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/tasks.css";
 
+import {
+  PointerSensor,
+  KeyboardSensor,
+  useSensor,
+  useSensors
+} from "@dnd-kit/core";
+
+import {
+  sortableKeyboardCoordinates,
+  arrayMove
+} from "@dnd-kit/sortable";
+
 import Toast from "../components/Toast";
 import TaskFilters from "../components/TaskFilters";
 import TaskInput from "../components/TaskInput";
-import TaskCard from "../components/TaskCard";
-import SkeletonLoader from "../components/SkeletonLoader";
+import TaskList from "../components/TaskList";
 
 function Tasks() {
   const [tasks, setTasks] = useState([]);
@@ -19,6 +30,17 @@ function Tasks() {
 
   const token = localStorage.getItem("token");
   const name = localStorage.getItem("name") || "User";
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8
+      }
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates
+    })
+  );
 
   const fetchTasks = useCallback(() => {
     fetch(`${import.meta.env.VITE_API_URL}/api/tasks`, {
@@ -50,6 +72,45 @@ function Tasks() {
     return true;
   });
 
+  const saveTaskOrder = async (orderedTasks) => {
+    await fetch(`${import.meta.env.VITE_API_URL}/api/tasks/reorder`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token
+      },
+      body: JSON.stringify({
+        tasks: orderedTasks.map((task, index) => ({
+          id: task._id,
+          order: index
+        }))
+      })
+    });
+  };
+
+  const handleDragEnd = async (event) => {
+    const { active, over } = event;
+
+    if (!over || active.id === over.id) return;
+
+    const oldIndex = tasks.findIndex(task => task._id === active.id);
+    const newIndex = tasks.findIndex(task => task._id === over.id);
+
+    if (oldIndex === -1 || newIndex === -1) return;
+
+    const reorderedTasks = arrayMove(tasks, oldIndex, newIndex);
+
+    setTasks(reorderedTasks);
+
+    try {
+      await saveTaskOrder(reorderedTasks);
+      setToast("Task order updated!");
+    } catch {
+      setToast("Could not save task order.");
+      fetchTasks();
+    }
+  };
+
   const addTask = async () => {
     if (!title.trim()) return;
 
@@ -66,7 +127,7 @@ function Tasks() {
 
     setTasks(prev => [newTask, ...prev]);
     setTitle("");
-    setToast("Task add successfully!");
+    setToast("Task added successfully!");
   };
 
   const deleteTask = async (id) => {
@@ -78,7 +139,7 @@ function Tasks() {
     });
 
     setTasks(prev => prev.filter(task => task._id !== id));
-    setToast("Task deleted successfully!");    
+    setToast("Task deleted successfully!");
   };
 
   const toggleComplete = async (task) => {
@@ -103,7 +164,7 @@ function Tasks() {
         t._id === updatedTasks._id ? updatedTasks : t
       )
     );
-  }
+  };
 
   const logout = () => {
     localStorage.removeItem("token");
@@ -134,23 +195,15 @@ function Tasks() {
           addTask={addTask}
         />
 
-        <div className="taskList">
-          {loading ? (
-            <SkeletonLoader />
-          ) : filteredTasks.length === 0 ? (
-            <p className="empty">No tasks yet. Add one.</p>
-          ) : (
-            filteredTasks.map(task => (
-              <TaskCard
-                key={task._id}
-                task={task}
-                deleteTask={deleteTask}
-                toggleComplete={toggleComplete}
-                updateTask={updateTasks}
-              />
-            ))
-          )}
-        </div>
+        <TaskList
+          loading={loading}
+          filteredTasks={filteredTasks}
+          sensors={sensors}
+          handleDragEnd={handleDragEnd}
+          deleteTask={deleteTask}
+          toggleComplete={toggleComplete}
+          updateTasks={updateTasks}
+        />
 
         {toast && (
           <Toast
