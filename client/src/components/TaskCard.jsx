@@ -57,6 +57,10 @@ function TaskCard({ task, deleteTask, toggleComplete, updateTask }) {
           </span>
         )}
 
+        <small className={`priorityBadge ${task.priority || "medium"}`}>
+          {task.priority || "medium"}
+        </small>
+
         {task.completed && (
           <small className="badge">Done</small>
         )}

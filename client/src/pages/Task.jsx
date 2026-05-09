@@ -33,6 +33,7 @@ function Tasks() {
   const [toast, setToast] = useState("");
   const [filter, setFilter] = useState("all");
   const [loading, setLoading] = useState(true);
+  const [priority, setPriority] = useState("medium");
 
   const navigate = useNavigate();
 
@@ -106,10 +107,11 @@ function Tasks() {
     if (!title.trim()) return;
 
     try {
-      const newTask = await createTask(title, token);
+      const newTask = await createTask(title, priority, token);
 
       setTasks(prev => [newTask, ...prev]);
       setTitle("");
+      setPriority("medium");
       setToast("Task added successfully!");
     } catch {
       setToast("Could not add task.");
@@ -172,6 +174,8 @@ function Tasks() {
         <TaskInput
           title={title}
           setTitle={setTitle}
+          priority={priority}
+          setPriority={setPriority}
           addTask={addTask}
         />
 

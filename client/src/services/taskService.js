@@ -19,11 +19,11 @@ export const getTasks = async (token) => {
   return res.json();
 };
 
-export const createTask = async (title, token) => {
+export const createTask = async (title, priority, token) => {
   const res = await fetch(API_URL, {
     method: "POST",
     headers: getHeaders(token),
-    body: JSON.stringify({ title })
+    body: JSON.stringify({ title, priority })
   });
 
   if (!res.ok) {
