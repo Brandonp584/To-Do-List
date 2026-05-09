@@ -20,6 +20,8 @@ A modern full-stack task management application built with the MERN stack. It fe
 - Mark Tasks Complete / Incomplete
 - Drag & Drop Task Reordering
 - Persistent Task Ordering
+- Task Priority Levels (Low / Medium / High)
+- Colour-Coded Priority Badges
 - Filter Tasks by:
   - All
   - Active
@@ -73,6 +75,7 @@ A modern full-stack task management application built with the MERN stack. It fe
 - Task Dashboard
 - Drag & Drop Task Reordering
 - Mobile Responsive View
+- Priority Task Badges
 
 ## 📂 Project Structure
 
@@ -188,7 +191,6 @@ Built with a mobile-first workflow using progressive media queries.
 ## 🧩 Future Improvements
 
 - Due Dates
-- Task Priorities
 - Search Functionality
 - Light / Dark Mode Toggle
 - User Profile Settings
@@ -206,10 +208,13 @@ Through building this project I improved my skills in:
 - React State Management
 - Component Refactoring
 - Drag & Drop UI Architecture
+- Drag & Drop State Managment
 - Responsive UI Design
 - Async JavaScript & API Handling
 - UX/UI Polish Techniques
 - MongoDB Data Modeling
+- Service Layer Architecture
+- Data Persistence Strategies
 
 ## 👨‍💻 Author
 
