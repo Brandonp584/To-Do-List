@@ -6,10 +6,15 @@ const auth = require("../middleware/authMiddleware");
 // CREATE task
 router.post("/", auth, async (req, res) => {
     try {
-        const task = await Task.create({
-            title: req.body.title,
-            user: req.user
-        });
+        const taskCount = await Task.countDocuments({
+        user: req.user
+    });
+
+    const task = await Task.create({
+        title: req.body.title,
+        user: req.user,
+        order: taskCount
+    });
         res.json(task);
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -21,10 +26,42 @@ router.get("/", auth, async (req, res) => {
     try {
         const tasks = await Task.find({ 
             user: req.user 
-        });
+        }).sort({ order: 1});
         res.json(tasks);
     } catch (err) {
         res.status(500).json({ error: err.message });
+    }
+});
+
+// Reorder Tasks
+router.put("/reorder", auth, async (req, res) => {
+    try {
+        const { tasks } = req.body;
+
+        await Promise.all(
+            tasks.map(task =>
+               Task.updateOne(
+                    {
+                        _id: task.id,
+                        user: req.user
+                    },
+                    {
+                        $set: {
+                            order: task.order
+                        }
+                    }
+                )
+            )
+        );
+
+        res.json({
+            message: "Task order updated!"
+        });
+
+    } catch (err) {
+        res.status(500).json({
+            error: err.message
+        });
     }
 });
 
