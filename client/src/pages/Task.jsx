@@ -19,6 +19,14 @@ import TaskFilters from "../components/TaskFilters";
 import TaskInput from "../components/TaskInput";
 import TaskList from "../components/TaskList";
 
+import {
+  getTasks,
+  createTask,
+  deleteTaskById,
+  toggleTaskComplete,
+  reorderTasks
+} from "../services/taskService";
+
 function Tasks() {
   const [tasks, setTasks] = useState([]);
   const [title, setTitle] = useState("");
@@ -43,12 +51,7 @@ function Tasks() {
   );
 
   const fetchTasks = useCallback(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/tasks`, {
-      headers: {
-        Authorization: token
-      }
-    })
-      .then(res => res.json())
+    getTasks(token)
       .then(data => {
         setTimeout(() => {
           setTasks(data);
@@ -73,19 +76,7 @@ function Tasks() {
   });
 
   const saveTaskOrder = async (orderedTasks) => {
-    await fetch(`${import.meta.env.VITE_API_URL}/api/tasks/reorder`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token
-      },
-      body: JSON.stringify({
-        tasks: orderedTasks.map((task, index) => ({
-          id: task._id,
-          order: index
-        }))
-      })
-    });
+    await reorderTasks(orderedTasks, token);
   };
 
   const handleDragEnd = async (event) => {
@@ -114,48 +105,37 @@ function Tasks() {
   const addTask = async () => {
     if (!title.trim()) return;
 
-    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/tasks`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token
-      },
-      body: JSON.stringify({ title })
-    });
+    try {
+      const newTask = await createTask(title, token);
 
-    const newTask = await res.json();
-
-    setTasks(prev => [newTask, ...prev]);
-    setTitle("");
-    setToast("Task added successfully!");
+      setTasks(prev => [newTask, ...prev]);
+      setTitle("");
+      setToast("Task added successfully!");
+    } catch {
+      setToast("Could not add task.");
+    }
   };
 
   const deleteTask = async (id) => {
-    await fetch(`${import.meta.env.VITE_API_URL}/api/tasks/${id}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: token
-      }
-    });
+    try {
+      await deleteTaskById(id, token);
 
-    setTasks(prev => prev.filter(task => task._id !== id));
-    setToast("Task deleted successfully!");
+      setTasks(prev => prev.filter(task => task._id !== id));
+      setToast("Task deleted successfully!");
+    } catch {
+      setToast("Could not delete task.");
+    }
   };
 
   const toggleComplete = async (task) => {
-    await fetch(`${import.meta.env.VITE_API_URL}/api/tasks/${task._id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token
-      },
-      body: JSON.stringify({
-        completed: !task.completed
-      })
-    });
+    try {
+      await toggleTaskComplete(task, token);
 
-    setToast(task.completed ? "Marked incomplete!" : "Marked complete!");
-    fetchTasks();
+      setToast(task.completed ? "Marked incomplete!" : "Marked complete!");
+      fetchTasks();
+    } catch {
+      setToast("Could not update task.");
+    }
   };
 
   const updateTasks = (updatedTasks) => {
