@@ -12,6 +12,7 @@ router.post("/", auth, async (req, res) => {
 
     const task = await Task.create({
         title: req.body.title,
+        priority: req.body.priority || "medium",
         user: req.user,
         order: taskCount
     });
